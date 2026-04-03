@@ -1,0 +1,6 @@
+[submodule "leanSig"]
+	path = leanSig
+	url = https://github.com/pkondratas/leanSig.git
+[submodule "leanMultisig"]
+	path = leanMultisig
+	url = https://github.com/pkondratas/leanMultisig.git
