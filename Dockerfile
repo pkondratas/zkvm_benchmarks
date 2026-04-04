@@ -1,0 +1,61 @@
+FROM nvidia/cuda:13.2.0-devel-ubuntu24.04
+
+ENV RUSTUP_HOME=/opt/rustup
+ENV CARGO_HOME=/opt/cargo
+ENV RISC0_HOME=/opt/risc0
+ENV PATH=/opt/cargo/bin:/usr/local/cuda/bin:/opt/risc0/bin:$PATH
+
+RUN apt-get update && apt-get install -y curl build-essential libssl-dev pkg-config git protobuf-compiler libclang-dev
+
+RUN RUSTUP_HOME=/opt/rustup CARGO_HOME=/opt/cargo \
+    curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | \
+    sh -s -- -y --no-modify-path && \
+    chmod -R a+rwX /opt/rustup /opt/cargo
+
+RUN curl -L https://risczero.com/install | RISC0_HOME=/opt/risc0 bash && \
+    mv /root/.risc0 /opt/risc0 && \
+    chmod -R a+rX /opt/risc0
+    
+RUN rzup install && \
+    chmod -R a+rX /opt/risc0
+
+RUN useradd -m appuser
+
+RUN git clone --no-recurse-submodules https://github.com/pkondratas/zkvm_benchmarks.git && \
+    cd zkvm_benchmarks && \
+    git submodule update --init leanSig && \
+    chown -R appuser:appuser /zkvm_benchmarks
+
+USER appuser    
+
+WORKDIR /zkvm_benchmarks
+
+RUN git checkout cpu-local-proving
+
+# FROM nvidia/cuda:13.2.0-devel-ubuntu24.04
+
+# ENV RUSTUP_HOME=/opt/rustup
+# ENV CARGO_HOME=/opt/cargo
+# ENV PATH=/opt/cargo/bin:/usr/local/cuda/bin:/root/.risc0/bin:$PATH
+
+# RUN apt-get update && apt-get install -y curl build-essential libssl-dev pkg-config git protobuf-compiler libclang-dev
+
+# RUN RUSTUP_HOME=/opt/rustup CARGO_HOME=/opt/cargo \
+#     curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | \
+#     sh -s -- -y --no-modify-path && \
+#     chmod -R a+rwX /opt/rustup /opt/cargo
+
+# RUN curl -L https://risczero.com/install | bash && \
+#     /root/.risc0/bin/rzup install && \
+#     chmod -R a+rX /root/.risc0
+
+# RUN useradd -m appuser
+
+# RUN git clone --no-recurse-submodules https://github.com/pkondratas/zkvm_benchmarks.git && \
+#     cd zkvm_benchmarks && \
+#     git submodule update --init leanSig && \
+#     chown -R appuser:appuser /zkvm_benchmarks
+
+# USER appuser
+
+# WORKDIR /zkvm_benchmarks
