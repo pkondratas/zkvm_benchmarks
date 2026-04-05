@@ -1,0 +1,8 @@
+[package]
+name = "sp1_xmss_benchmark"
+version = { workspace = true }
+edition = { workspace = true }
+
+[dependencies]
+sp1-zkvm = { workspace = true }
+substrate-bn = "0.6.0"
