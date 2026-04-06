@@ -1,20 +1,18 @@
 #![no_main]
 sp1_zkvm::entrypoint!(main);
 
+use common::signing_round::XmssSigningRound;
+use leansig::signature::{
+    generalized_xmss::instantiations_poseidon::lifetime_2_to_the_18::target_sum::SIGTargetSumLifetime18W1NoOff,
+    SignatureScheme,
+};
+
 pub fn main() {
-    let n = sp1_zkvm::io::read::<u32>();
+    let (public_key, signing_rounds) = sp1_zkvm::io::read::<(<SIGTargetSumLifetime18W1NoOff as SignatureScheme>::PublicKey, Vec<XmssSigningRound<SIGTargetSumLifetime18W1NoOff>>)>();
 
-    sp1_zkvm::io::commit(&n);
-
-    let mut a = 0;
-    let mut b = 1;
-    for _ in 0..n {
-        let mut c = a + b;
-        c %= 7919; // Modulus to prevent overflow.
-        a = b;
-        b = c;
+    for round in signing_rounds {
+        if !SIGTargetSumLifetime18W1NoOff::verify(&public_key, round.epoch, &round.message, &round.signature) {
+            panic!("Error");
+        }
     }
-
-    sp1_zkvm::io::commit(&a);
-    sp1_zkvm::io::commit(&b);
 }

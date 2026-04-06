@@ -1,8 +1,9 @@
 [package]
 name = "sp1_xmss_benchmark"
-version = { workspace = true }
-edition = { workspace = true }
+version = "0.1.0"
+edition = "2021"
 
 [dependencies]
-sp1-zkvm = { workspace = true }
-substrate-bn = "0.6.0"
+sp1-zkvm = { version = "6.0.1" }
+leansig = { path = "../../../leanSig" }
+common = { path = "../../../common" }

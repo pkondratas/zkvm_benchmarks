@@ -1,5 +1,5 @@
 [package]
-name = "host"
+name = "risc0-host"
 version = "0.1.0"
 edition = "2021"
 
@@ -7,8 +7,7 @@ edition = "2021"
 methods = { path = "../methods" }
 risc0-zkvm = { version = "^3.0.5" }
 tracing-subscriber = { version = "0.3", features = ["env-filter"] }
+
 serde = "1.0"
 leansig = { path = "../../../leanSig" }
 common = { path = "../../../common" }
-rand = "0.10.0"
-bincode = "1"

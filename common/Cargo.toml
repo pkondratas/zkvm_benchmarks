@@ -6,3 +6,5 @@ edition = "2024"
 [dependencies]
 leansig = { version = "0.1.0", path = "../leanSig" }
 serde = "1.0.228"
+bincode = "1"
+rand = "0.10.0"
