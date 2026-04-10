@@ -32,7 +32,7 @@ fn generate_xmss_signatures<S: SignatureScheme>(n: usize) -> (S::PublicKey, Vec<
 pub fn generate_and_cache_signatures(n: usize) -> (<SIGTargetSumLifetime18W1NoOff as SignatureScheme>::PublicKey, Vec<XmssSigningRound<SIGTargetSumLifetime18W1NoOff>>) {
     let cache_filename = format!("signatures_cache{n}.bin");
     let cache_path = Path::new(&cache_filename);
-    
+
     if cache_path.exists() {
         println!("Loading signatures from cache...");
 

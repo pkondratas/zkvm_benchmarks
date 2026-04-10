@@ -8,6 +8,8 @@ publish = false
 sp1-sdk = { version = "6.0.1", features = ["blocking", "native-gnark"] }
 tracing = "0.1.40"
 dotenv = "0.15.0"
+clap = "4.6.0"
+bincode = "1"
 
 leansig = { path = "../../../leanSig" }
 common = { path = "../../../common" }
