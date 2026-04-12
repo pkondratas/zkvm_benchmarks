@@ -13,6 +13,7 @@ bincode = "1"
 
 leansig = { path = "../../../leanSig" }
 common = { path = "../../../common" }
+sp1-cuda = "6.1.0"
 
 [build-dependencies]
 sp1-build = { version = "6.0.1" }

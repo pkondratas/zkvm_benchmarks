@@ -9,8 +9,10 @@ RUN git clone --no-recurse-submodules https://github.com/pkondratas/zkvm_benchma
     git checkout gpu-proving
 
 RUN curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y
+ENV PATH="/root/.cargo/bin:$PATH"
 
 RUN curl -L https://risczero.com/install | bash
+ENV PATH="/root/.risc0/bin:$PATH"
 
 RUN rzup install
 
