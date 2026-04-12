@@ -6,7 +6,7 @@ apt-get update && apt-get install -y curl build-essential libssl-dev pkg-config 
 git clone --no-recurse-submodules https://github.com/pkondratas/zkvm_benchmarks.git && \
     cd zkvm_benchmarks && \
     git submodule update --init leanSig && \
-    git checkout cpu-local-proving
+    git checkout gpu-proving
 
 cd
 
