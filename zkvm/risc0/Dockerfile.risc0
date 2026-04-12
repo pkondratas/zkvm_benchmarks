@@ -1,0 +1,19 @@
+# sudo docker run --rm -it --device nvidia.com/gpu=all nvidia/cuda:13.2.0-devel-ubuntu24.04   nvidia-smi
+FROM nvidia/cuda:12.9.0-devel-ubuntu24.04
+
+RUN apt-get update && apt-get install -y curl build-essential libssl-dev pkg-config git protobuf-compiler libclang-dev time
+
+RUN git clone --no-recurse-submodules https://github.com/pkondratas/zkvm_benchmarks.git && \
+    cd zkvm_benchmarks && \
+    git submodule update --init leanSig && \
+    git checkout cpu-local-proving
+
+RUN curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y
+
+RUN curl -L https://risczero.com/install | bash
+
+RUN rzup install
+
+WORKDIR /zkvm_benchmarks/
+
+ENTRYPOINT ["/usr/bin/time", "-v", "/root/.cargo/bin/cargo", "run", "--release", "--bin", "risc0-host"]

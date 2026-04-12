@@ -1,0 +1,38 @@
+FROM ubuntu:24.04
+
+# RUN mkdir zkvm
+
+# ENV RUSTUP_HOME=/zkvm/rustup
+# ENV CARGO_HOME=/zkvm/cargo
+# ENV PATH=/zkvm/cargo/bin:/zkvm/sp1/bin:$PATH
+
+RUN apt-get update && apt-get install -y curl build-essential libssl-dev pkg-config git protobuf-compiler libclang-dev golang-go
+
+# RUN RUSTUP_HOME=/zkvm/rustup CARGO_HOME=/zkvm/cargo \
+#     curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | \
+#     sh -s -- -y --no-modify-path && \
+#     chmod -R a+rwX /zkvm/rustup /zkvm/cargo
+RUN curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y && \
+    . "$HOME/.cargo/env"
+
+# RUN curl -L https://sp1up.succinct.xyz | bash
+RUN curl -L https://sp1up.succinct.xyz | bash && \
+    source /home/azureuser/.bashrc && \
+    sp1up
+
+# RUN root/.sp1/bin/sp1up
+
+# RUN mv /root/.sp1 /zkvm/sp1 && \
+#     chmod -R a+rX /zkvm/sp1 && \
+#     chmod -R a+rwX /zkvm/rustup /zkvm/cargo
+
+RUN rm /zkvm/rustup/toolchains/succinct && \
+    ln -sfn $(ls -d /zkvm/sp1/toolchains/* | head -n 1) /zkvm/rustup/toolchains/succinct
+
+RUN cargo prove new --bare fibonacci && \
+    cd fibonacci && \
+    cd program && \
+    cargo prove build
+
+RUN cd fibonacci/script && \
+    cargo build --release
