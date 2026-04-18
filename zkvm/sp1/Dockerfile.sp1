@@ -1,4 +1,4 @@
-FROM ubuntu:24.04
+FROM nvidia/cuda:12.9.0-devel-ubuntu24.04
 
 # RUN mkdir zkvm
 
@@ -17,7 +17,7 @@ RUN curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y && \
 
 # RUN curl -L https://sp1up.succinct.xyz | bash
 RUN curl -L https://sp1up.succinct.xyz | bash && \
-    source /home/azureuser/.bashrc && \
+    . ~/.bashrc && \
     sp1up
 
 # RUN root/.sp1/bin/sp1up
@@ -26,13 +26,13 @@ RUN curl -L https://sp1up.succinct.xyz | bash && \
 #     chmod -R a+rX /zkvm/sp1 && \
 #     chmod -R a+rwX /zkvm/rustup /zkvm/cargo
 
-RUN rm /zkvm/rustup/toolchains/succinct && \
-    ln -sfn $(ls -d /zkvm/sp1/toolchains/* | head -n 1) /zkvm/rustup/toolchains/succinct
+# RUN rm /zkvm/rustup/toolchains/succinct && \
+#     ln -sfn $(ls -d /zkvm/sp1/toolchains/* | head -n 1) /zkvm/rustup/toolchains/succinct
 
-RUN cargo prove new --bare fibonacci && \
-    cd fibonacci && \
-    cd program && \
-    cargo prove build
+# RUN cargo prove new --bare fibonacci && \
+#     cd fibonacci && \
+#     cd program && \
+#     cargo prove build
 
-RUN cd fibonacci/script && \
-    cargo build --release
+# RUN cd fibonacci/script && \
+#     cargo build --release
