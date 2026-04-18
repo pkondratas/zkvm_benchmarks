@@ -1,3 +1,5 @@
+# max=0; while true; do vram=$(nvidia-smi --query-gpu=memory.used --format=csv,noheader,nounits | tr -d '\r'); if [ "$vram" -gt "$max" ]; then max=$vram; fi; echo -ne "Current: ${vram} MiB | Max: ${max} MiB\r"; sleep 1; done
+
 # sudo docker run --rm -it --device nvidia.com/gpu=all nvidia/cuda:13.2.0-devel-ubuntu24.04   nvidia-smi
 FROM nvidia/cuda:12.9.0-devel-ubuntu24.04
 
@@ -18,4 +20,4 @@ RUN rzup install
 
 WORKDIR /zkvm_benchmarks/
 
-ENTRYPOINT ["/usr/bin/time", "-v", "/root/.cargo/bin/cargo", "run", "--release", "--bin", "risc0-host"]
+# ENTRYPOINT ["/usr/bin/time", "-v", "/root/.cargo/bin/cargo", "run", "--release", "--bin", "risc0-host"]

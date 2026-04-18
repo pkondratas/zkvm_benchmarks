@@ -3,21 +3,33 @@ use leansig::{
     serialization::Serializable
 };
 use methods::{RISC0_XMSS_BENCHMARK_ELF, RISC0_XMSS_BENCHMARK_ID};
-use risc0_zkvm::{default_prover, ExecutorEnv};
+use risc0_zkvm::{ExecutorEnv, ProverOpts, default_prover};
 use std::time::Instant;
+use clap::{Parser, Subcommand};
+
+#[derive(Parser)]
+#[command(about, long_about = None)]
+struct Args {
+    #[arg(long, default_value_t = 22)]
+    max_segment_limit: u32,
+
+    #[arg(long, default_value_t = 1)]
+    n_signatures: usize
+}
 
 fn main() {
     // Set for development purposes
     std::env::set_var("RUST_LOG", "info");
     std::env::set_var("RISC0_INFO", "1");
-    std::env::set_var("RISC0_DEV_MODE", "0");
 
     tracing_subscriber::fmt()
         .with_env_filter(tracing_subscriber::filter::EnvFilter::from_default_env())
         .init();
 
+    let args = Args::parse();
+
     let (public_key, signatures_rounds) =
-        generate_signatures::generate_and_cache_signatures(constants::N_SIGNATURES);
+        generate_signatures::generate_and_cache_signatures(args.n_signatures);
 
     let pk_bytes = public_key.to_bytes();
 
@@ -31,23 +43,25 @@ fn main() {
         signatures_bytes.extend(s.signature.to_bytes());
     });
 
+    
     let env = ExecutorEnv::builder()
-        // .write(&(public_key, signatures_rounds))
-        // .unwrap()
-        .write(&pk_bytes.len())
-        .unwrap()
-        .write(&epochs_bytes.len())
-        .unwrap()
-        .write(&messages_bytes.len())
-        .unwrap()
-        .write(&signatures_bytes.len())
-        .unwrap()
-        .write_slice(&pk_bytes)
-        .write_slice(&epochs_bytes)
-        .write_slice(&messages_bytes)
-        .write_slice(&signatures_bytes)
-        .build()
-        .unwrap();
+    // .write(&(public_key, signatures_rounds))
+    // .unwrap()
+    .write(&pk_bytes.len())
+    .unwrap()
+    .write(&epochs_bytes.len())
+    .unwrap()
+    .write(&messages_bytes.len())
+    .unwrap()
+    .write(&signatures_bytes.len())
+    .unwrap()
+    .write_slice(&pk_bytes)
+    .write_slice(&epochs_bytes)
+    .write_slice(&messages_bytes)
+    .write_slice(&signatures_bytes)
+    .segment_limit_po2(args.max_segment_limit)
+    .build()
+    .unwrap();
 
     let prover = default_prover();
 
