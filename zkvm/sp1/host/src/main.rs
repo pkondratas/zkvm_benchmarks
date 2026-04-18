@@ -4,7 +4,7 @@ use common::{generate_signatures};
 use leansig::serialization::Serializable;
 use sp1_core_executor::SP1CoreOpts;
 use sp1_sdk::{
-    CudaProver, Elf, Prover, ProverClient, SP1Stdin, include_elf
+    CudaProver, Elf, ProveRequest, Prover, ProverClient, SP1Stdin, include_elf
 };
 
 #[derive(Subcommand, Debug)]
@@ -44,7 +44,7 @@ async fn prove_xmss_verification(stdin: SP1Stdin, client: CudaProver) {
     let pk = client.setup(ELF).await.unwrap();
 
     let time = Instant::now();
-    let proof = client.prove(&pk, stdin).await.unwrap();
+    let proof = client.prove(&pk, stdin).compressed().await.unwrap();
     println!("Elapsed: {}", time.elapsed().as_millis());
 
     println!("Successfully generated proof!");
