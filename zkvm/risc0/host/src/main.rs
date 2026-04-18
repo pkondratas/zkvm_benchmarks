@@ -4,6 +4,7 @@ use leansig::{
 };
 use methods::{RISC0_XMSS_BENCHMARK_ELF, RISC0_XMSS_BENCHMARK_ID};
 use risc0_zkvm::{ExecutorEnv, ProverOpts, default_prover};
+use risc0_custom;
 use std::time::Instant;
 use clap::{Parser, Subcommand};
 
@@ -63,10 +64,12 @@ fn main() {
     .build()
     .unwrap();
 
+    let opts = ProverOpts::succinct().with_receipt_kind(risc0_zkvm::ReceiptKind::Succinct);
+
     let prover = default_prover();
 
     let time = Instant::now();
-    let receipt = prover.prove(env, RISC0_XMSS_BENCHMARK_ELF).unwrap().receipt;
+    let receipt = prover.prove_with_opts(env, RISC0_XMSS_BENCHMARK_ELF, &opts).unwrap().receipt;
     println!("Elapsed: {}", time.elapsed().as_millis());
 
     println!("Proof size: {}", receipt.seal_size());

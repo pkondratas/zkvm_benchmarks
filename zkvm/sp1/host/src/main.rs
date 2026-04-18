@@ -1,11 +1,12 @@
+use std::time::Instant;
+
 use clap::{Parser, Subcommand};
-use common::{constants, generate_signatures};
+use common::{generate_signatures};
 use leansig::serialization::Serializable;
 use sp1_core_executor::SP1CoreOpts;
 use sp1_sdk::{
-    env::EnvProver, include_elf, CudaProver, Elf, Prover, ProverClient, ProvingKey, SP1Stdin,
+    CudaProver, Elf, Prover, ProverClient, include_elf
 };
-use tracing::dispatcher::with_default;
 
 #[derive(Subcommand, Debug)]
 enum Command {
@@ -43,9 +44,16 @@ async fn prove_xmss_verification(stdin: SP1Stdin, client: CudaProver) {
 
     let pk = client.setup(ELF).await.unwrap();
 
+    let time = Instant::now();
     let proof = client.prove(&pk, stdin).await.unwrap();
+    println!("Elapsed: {}", time.elapsed().as_millis());
 
     println!("Successfully generated proof!");
+
+    match proof.proof.clone().try_as_core() {
+        Some(p) => println!("Shard count: {}", p.len()),
+        None => println!("Proof is not a core proof"),
+    }
 
     client
         .verify(&proof, pk.verifying_key(), None)
@@ -61,8 +69,10 @@ async fn main() {
     dotenv::dotenv().ok();
     
     let args = Args::parse();
+    let max_shards_po2 = 1 << args.max_segment_limit;
 
     std::env::set_var("RUST_LOG", "info");
+    std::env::set_var("HEIGHT_THRESHOLD", format!("{}", max_shards_po2));
 
     let (public_key, signatures_rounds) =
         generate_signatures::generate_and_cache_signatures(args.n_signatures);
@@ -86,9 +96,7 @@ async fn main() {
     stdin.write_vec(messages_bytes);
     stdin.write_vec(signatures_bytes);
 
-    let mut opts = SP1CoreOpts::default();
-
-    opts.shard_size = 1 << args.max_segment_limit;
+    let opts = SP1CoreOpts::default();
 
     let client = ProverClient::builder()
         .cuda()
