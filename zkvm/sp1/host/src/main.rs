@@ -1,11 +1,10 @@
 use std::time::Instant;
-
 use clap::{Parser, Subcommand};
 use common::{generate_signatures};
 use leansig::serialization::Serializable;
 use sp1_core_executor::SP1CoreOpts;
 use sp1_sdk::{
-    CudaProver, Elf, Prover, ProverClient, include_elf
+    CudaProver, Elf, Prover, ProverClient, SP1Stdin, include_elf
 };
 
 #[derive(Subcommand, Debug)]
@@ -49,11 +48,6 @@ async fn prove_xmss_verification(stdin: SP1Stdin, client: CudaProver) {
     println!("Elapsed: {}", time.elapsed().as_millis());
 
     println!("Successfully generated proof!");
-
-    match proof.proof.clone().try_as_core() {
-        Some(p) => println!("Shard count: {}", p.len()),
-        None => println!("Proof is not a core proof"),
-    }
 
     client
         .verify(&proof, pk.verifying_key(), None)
