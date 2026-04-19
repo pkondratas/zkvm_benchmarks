@@ -67,12 +67,7 @@ fn main() {
     let time = Instant::now();
     let session = ExecutorImpl::from_elf(env, &RISC0_XMSS_BENCHMARK_ELF)
         .unwrap()
-        .run_with_callback(|segment| {
-            Ok(Box::new(FileSegmentRef::new(
-                &segment,
-                &SegmentPath::Path(segment_dir)
-            )?))
-        })
+        .run()
         .unwrap();
     println!("Execution time: {}", time.elapsed().as_millis());
 
