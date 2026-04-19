@@ -16,7 +16,9 @@ ENV PATH="/root/.risc0/bin:$PATH"
 
 RUN rzup install
 
-RUN curl -L https://sp1up.succinct.xyz | bash 
+RUN curl -L https://sp1up.succinct.xyz | bash
+ENV PATH="/root/.sp1/bin:${PATH}"
+
 RUN sp1up
 
 WORKDIR /zkvm_benchmarks/
