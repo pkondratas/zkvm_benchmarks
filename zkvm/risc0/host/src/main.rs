@@ -72,7 +72,7 @@ fn main() {
     println!("Number of cycles: {}", session.user_cycles);
 
     let time = Instant::now();
-    let receipt = prover.prove_session(&ctx, &session).unwrap().recept();
+    let receipt = prover.prove_session(&ctx, &session).unwrap().receipt;
     println!("Proving time: {}", time.elapsed().as_millis());
 
     let size = utils::get_proof_size(&receipt.inner.succinct().unwrap());
