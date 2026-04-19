@@ -2,7 +2,6 @@ use common::{constants, generate_signatures, utils};
 use leansig::{
     serialization::Serializable
 };
-use risc0_zkvm::host::client::env::SegmentPath;
 use methods::{RISC0_XMSS_BENCHMARK_ELF, RISC0_XMSS_BENCHMARK_ID};
 use risc0_zkvm::{Executor, ExecutorEnv, ExecutorImpl, FileSegmentRef, ProverOpts, VerifierContext, default_prover, get_prover_server};
 use std::{env::temp_dir, time::Instant};
