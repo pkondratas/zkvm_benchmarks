@@ -7,10 +7,7 @@ use leansig::signature::{
 };
 use risc0_zkvm::guest::env;
 
-
 fn main() {
-    println!("Received input");
-
     let pk_bytes_len: usize = env::read();
     let epochs_bytes_len: usize = env::read();
     let messages_bytes_len: usize = env::read();

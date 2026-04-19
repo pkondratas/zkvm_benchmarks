@@ -1,6 +1,6 @@
 use std::time::Instant;
 use clap::{Parser, Subcommand};
-use common::{generate_signatures};
+use common::{generate_signatures, utils};
 use leansig::serialization::Serializable;
 use sp1_core_executor::SP1CoreOpts;
 use sp1_sdk::{
@@ -30,30 +30,28 @@ struct Args {
 const ELF: Elf = include_elf!("sp1_xmss_benchmark");
 
 async fn execute_xmss_verification(stdin: SP1Stdin, client: CudaProver) {
-    println!("Executing...");
-
+    let time = Instant::now();
     let (_, report) = client.execute(ELF, stdin).await.unwrap();
-
+    println!("Execution time: {}", time.elapsed().as_millis());
+    
     println!("Number of cycles: {}", report.total_instruction_count());
-    println!("PGUs: {}", report.gas().unwrap_or(0));
 }
 
 async fn prove_xmss_verification(stdin: SP1Stdin, client: CudaProver) {
-    println!("Proving...");
-
     let pk = client.setup(ELF).await.unwrap();
 
     let time = Instant::now();
     let proof = client.prove(&pk, stdin).compressed().await.unwrap();
-    println!("Elapsed: {}", time.elapsed().as_millis());
+    println!("Proving time: {}", time.elapsed().as_millis());
 
-    println!("Successfully generated proof!");
+    let size = utils::get_proof_size(&proof);
+    println!("Proof size: {} bytes", size);
 
+    let time = Instant::now();
     client
         .verify(&proof, pk.verifying_key(), None)
         .expect("failed to verify proof");
-
-    println!("Successfully verified proof!");
+    println!("Verfication time: {}", time.elapsed().as_millis());
 }
 
 #[tokio::main]
@@ -65,7 +63,6 @@ async fn main() {
     let args = Args::parse();
     let max_shards_po2 = 1 << args.max_segment_limit;
 
-    std::env::set_var("RUST_LOG", "info");
     std::env::set_var("HEIGHT_THRESHOLD", format!("{}", max_shards_po2));
 
     let (public_key, signatures_rounds) =

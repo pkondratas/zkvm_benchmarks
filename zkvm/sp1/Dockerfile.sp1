@@ -16,9 +16,8 @@ RUN curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y && \
     . "$HOME/.cargo/env"
 
 # RUN curl -L https://sp1up.succinct.xyz | bash
-RUN curl -L https://sp1up.succinct.xyz | bash && \
-    . ~/.bashrc && \
-    sp1up
+RUN curl -L https://sp1up.succinct.xyz | bash
+RUN sp1up
 
 # RUN root/.sp1/bin/sp1up
 

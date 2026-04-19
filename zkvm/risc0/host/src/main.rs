@@ -1,4 +1,4 @@
-use common::{constants, generate_signatures};
+use common::{constants, generate_signatures, utils};
 use leansig::{
     serialization::Serializable
 };
@@ -19,10 +19,6 @@ struct Args {
 }
 
 fn main() {
-    // Set for development purposes
-    std::env::set_var("RUST_LOG", "info");
-    std::env::set_var("RISC0_INFO", "1");
-
     tracing_subscriber::fmt()
         .with_env_filter(tracing_subscriber::filter::EnvFilter::from_default_env())
         .init();
@@ -43,11 +39,8 @@ fn main() {
         messages_bytes.extend(s.message.to_bytes());
         signatures_bytes.extend(s.signature.to_bytes());
     });
-
     
     let env = ExecutorEnv::builder()
-        // .write(&(public_key, signatures_rounds))
-        // .unwrap()
         .write(&pk_bytes.len())
         .unwrap()
         .write(&epochs_bytes.len())
@@ -64,11 +57,12 @@ fn main() {
         .build()
         .unwrap();
 
-    let opts = ProverOpts::succinct().with_receipt_kind(risc0_zkvm::ReceiptKind::Succinct);
+    let opts = ProverOpts::succinct();
 
     let prover = default_prover();
     let segment_dir = temp_dir().unwrap();
 
+    let time = Instant::now();
     let session = ExecutorImpl::from_elf(env, &RISC0_XMSS_BENCHMARK_ELF)
         .unwrap()
         .run_with_callback(|segment| {
@@ -78,14 +72,18 @@ fn main() {
             )?))
         })
         .unwrap();
+    println!("Proving time: {}", time.elapsed().as_millis());
 
-    println!("Segment count: {:?}", session.segments.len());
+    println!("Number of cycles: {}", session.user_cycles);
 
     let time = Instant::now();
     let receipt = session.prove().unwrap().receipt;
-    println!("Elapsed: {}", time.elapsed().as_millis());
+    println!("Proving time: {}", time.elapsed().as_millis());
 
-    println!("Proof size: {}", receipt.seal_size());
+    let size = utils::get_proof_size(&proof);
+    println!("Proof size: {} bytes", size);
+
+    let time = Instant::now();
     receipt.verify(RISC0_XMSS_BENCHMARK_ID).unwrap();
-    println!("Verification successful.");
+    println!("Verfication time: {}", time.elapsed().as_millis());
 }
