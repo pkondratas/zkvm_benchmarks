@@ -3,8 +3,7 @@ use leansig::{
     serialization::Serializable
 };
 use methods::{RISC0_XMSS_BENCHMARK_ELF, RISC0_XMSS_BENCHMARK_ID};
-use risc0_zkvm::{Executor, ExecutorEnv, ExecutorImpl, FileSegmentRef, ProverOpts, default_prover};
-use risc0_custom;
+use risc0_zkvm::{Executor, ExecutorEnv, ExecutorImpl, FileSegmentRef, ProverOpts, VerifierContext, default_prover, get_prover_server};
 use std::{env::temp_dir, time::Instant};
 use clap::{Parser, Subcommand};
 
@@ -59,28 +58,24 @@ fn main() {
 
     let opts = ProverOpts::succinct();
 
-    let prover = default_prover();
-    let segment_dir = temp_dir().unwrap();
+    let prover = get_prover_server(&opts).unwrap();
+    let segment_dir = temp_dir();
+    let ctx = VerifierContext::default();
 
     let time = Instant::now();
     let session = ExecutorImpl::from_elf(env, &RISC0_XMSS_BENCHMARK_ELF)
         .unwrap()
-        .run_with_callback(|segment| {
-            Ok(Box::new(FileSegmentRef::new(
-                &segment,
-                &segment_dir.path()
-            )?))
-        })
+        .run()
         .unwrap();
     println!("Proving time: {}", time.elapsed().as_millis());
 
     println!("Number of cycles: {}", session.user_cycles);
 
     let time = Instant::now();
-    let receipt = session.prove().unwrap().receipt;
+    let receipt = prover.prove_session(&ctx, &session);
     println!("Proving time: {}", time.elapsed().as_millis());
 
-    let size = utils::get_proof_size(&proof);
+    let size = utils::get_proof_size(&receipt.inner.succinct().unwrap());
     println!("Proof size: {} bytes", size);
 
     let time = Instant::now();
