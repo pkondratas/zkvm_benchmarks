@@ -2,6 +2,7 @@ use common::{constants, generate_signatures, utils};
 use leansig::{
     serialization::Serializable
 };
+use risc0_zkvm::host::client::env::SegmentPath;
 use methods::{RISC0_XMSS_BENCHMARK_ELF, RISC0_XMSS_BENCHMARK_ID};
 use risc0_zkvm::{Executor, ExecutorEnv, ExecutorImpl, FileSegmentRef, ProverOpts, VerifierContext, default_prover, get_prover_server};
 use std::{env::temp_dir, time::Instant};
@@ -59,15 +60,21 @@ fn main() {
     let opts = ProverOpts::succinct();
 
     let prover = get_prover_server(&opts).unwrap();
-    let segment_dir = temp_dir();
     let ctx = VerifierContext::default();
+
+    let segment_dir = temp_dir();
 
     let time = Instant::now();
     let session = ExecutorImpl::from_elf(env, &RISC0_XMSS_BENCHMARK_ELF)
         .unwrap()
-        .run()
+        .run_with_callback(|segment| {
+            Ok(Box::new(FileSegmentRef::new(
+                &segment,
+                &SegmentPath::Path(segment_dir)
+            )?))
+        })
         .unwrap();
-    println!("Proving time: {}", time.elapsed().as_millis());
+    println!("Execution time: {}", time.elapsed().as_millis());
 
     println!("Number of cycles: {}", session.user_cycles);
 
