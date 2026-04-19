@@ -1,11 +1,11 @@
-use common::{constants, generate_signatures, utils};
+use common::{generate_signatures, utils};
 use leansig::{
     serialization::Serializable
 };
 use methods::{RISC0_XMSS_BENCHMARK_ELF, RISC0_XMSS_BENCHMARK_ID};
-use risc0_zkvm::{Executor, ExecutorEnv, ExecutorImpl, FileSegmentRef, ProverOpts, VerifierContext, default_prover, get_prover_server};
+use risc0_zkvm::{ExecutorEnv, ExecutorImpl, ProverOpts, VerifierContext, get_prover_server};
 use std::{env::temp_dir, time::Instant};
-use clap::{Parser, Subcommand};
+use clap::{Parser};
 
 #[derive(Parser)]
 #[command(about, long_about = None)]
@@ -60,8 +60,6 @@ fn main() {
 
     let prover = get_prover_server(&opts).unwrap();
     let ctx = VerifierContext::default();
-
-    let segment_dir = temp_dir();
 
     let time = Instant::now();
     let session = ExecutorImpl::from_elf(env, &RISC0_XMSS_BENCHMARK_ELF)

@@ -1,4 +1,3 @@
-use common::signing_round::XmssSigningRound;
 use common::constants;
 use leansig::serialization::Serializable;
 use leansig::signature::{
