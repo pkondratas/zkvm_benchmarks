@@ -23,6 +23,8 @@ RUSTFLAGS="-C target-cpu=native" RUST_LOG=info cargo run --release --bin sp1-hos
 RUSTFLAGS="-C target-cpu=native" RUST_LOG=info cargo run --release --bin sp1-host -- --n-signatures 1 --max-segment-limit 20 prove 2>&1 | tee -a sp1_1_sig.txt
 RUSTFLAGS="-C target-cpu=native" RUST_LOG=info cargo run --release --bin sp1-host -- --n-signatures 10 --max-segment-limit 20 execute 2>&1 | tee -a sp1_10_sig.txt
 RUSTFLAGS="-C target-cpu=native" RUST_LOG=info cargo run --release --bin sp1-host -- --n-signatures 10 --max-segment-limit 20 prove 2>&1 | tee -a sp1_10_sig.txt
+RUSTFLAGS="-C target-cpu=native" RUST_LOG=info cargo run --release --bin sp1-host -- --n-signatures 20 --max-segment-limit 20 execute 2>&1 | tee -a sp1_20_sig.txt
+RUSTFLAGS="-C target-cpu=native" RUST_LOG=info cargo run --release --bin sp1-host -- --n-signatures 20 --max-segment-limit 20 prove 2>&1 | tee -a sp1_20_sig.txt
 RUSTFLAGS="-C target-cpu=native" RUST_LOG=info cargo run --release --bin sp1-host -- --n-signatures 50 --max-segment-limit 20 execute 2>&1 | tee -a sp1_50_sig.txt
 RUSTFLAGS="-C target-cpu=native" RUST_LOG=info cargo run --release --bin sp1-host -- --n-signatures 50 --max-segment-limit 20 prove 2>&1 | tee -a sp1_50_sig.txt
 RUSTFLAGS="-C target-cpu=native" RUST_LOG=info cargo run --release --bin sp1-host -- --n-signatures 100 --max-segment-limit 20 execute 2>&1 | tee -a sp1_100_sig.txt
