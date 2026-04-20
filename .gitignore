@@ -4,4 +4,3 @@ methods/guest/Cargo.lock
 target/
 signatures_cache*.bin
 *_results.txt
-results/

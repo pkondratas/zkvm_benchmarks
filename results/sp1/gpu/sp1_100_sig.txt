@@ -1,0 +1,36 @@
+warning: profiles for the non root package will be ignored, specify profiles at the workspace root:
+package:   /zkvm_benchmarks/leanSig/Cargo.toml
+workspace: /zkvm_benchmarks/Cargo.toml
+warning: sp1-host@0.1.0: rustc +succinct --version: "rustc 1.93.0-dev\n"
+warning: sp1-host@0.1.0: sp1_xmss_benchmark built at 2026-04-20 19:25:32
+    Finished `release` profile [optimized + debuginfo] target(s) in 0.47s
+     Running `target/release/sp1-host --n-signatures 100 --max-segment-limit 20 execute`
+Generating signatures (this will be cached for future runs)...
+2026-04-20T19:35:46.884992Z  INFO initializing cuda prover
+Running sp1-gpu-server 6.1.0 with device 0
+2026-04-20T19:35:51.405008Z  INFO public_value_stream: []
+2026-04-20T19:36:00.721115Z  INFO sp1_gpu_server::server: Server listening @ /tmp/sp1-cuda-0.sock
+2026-04-20T19:36:00.721170Z  INFO sp1_gpu_server::server: Connection accepted
+2026-04-20T19:36:08.446179Z  INFO execute_program: close time.busy=6.27ms time.idle=20.7s
+Execution time: 20672
+Number of cycles: 813308782
+warning: profiles for the non root package will be ignored, specify profiles at the workspace root:
+package:   /zkvm_benchmarks/leanSig/Cargo.toml
+workspace: /zkvm_benchmarks/Cargo.toml
+warning: sp1-host@0.1.0: rustc +succinct --version: "rustc 1.93.0-dev\n"
+warning: sp1-host@0.1.0: sp1_xmss_benchmark built at 2026-04-20 19:25:32
+    Finished `release` profile [optimized + debuginfo] target(s) in 0.48s
+     Running `target/release/sp1-host --n-signatures 100 --max-segment-limit 20 prove`
+Loading signatures from cache...
+2026-04-20T19:36:09.033994Z  INFO initializing cuda prover
+Running sp1-gpu-server 6.1.0 with device 0
+2026-04-20T19:36:23.220909Z  INFO sp1_gpu_server::server: Server listening @ /tmp/sp1-cuda-0.sock
+2026-04-20T19:36:23.220959Z  INFO sp1_gpu_server::server: Connection accepted
+2026-04-20T19:36:23.239445Z  INFO sp1_gpu_server::server: Running setup
+2026-04-20T19:36:23.331730Z  INFO starting proof generation mode=Compressed
+2026-04-20T19:36:23.335971Z  INFO sp1_gpu_server::server: Proving with mode: Compressed
+Proving time: 151821
+Proof size: 1272569 bytes
+Verfication time: 68
+2026-04-20T19:38:55.221800Z  INFO sp1_gpu_server::server: Destroying key
+vram: 28466

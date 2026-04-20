@@ -1,0 +1,49 @@
+Execution time: 1281
+Number of cycles: 77372969
+Proving time: 128695
+Proof size: 223182 bytes
+Verfication time: 11
+warning: profiles for the non root package will be ignored, specify profiles at the workspace root:
+package:   /zkvm_benchmarks/leanSig/Cargo.toml
+workspace: /zkvm_benchmarks/Cargo.toml
+   Compiling methods v0.1.0 (/zkvm_benchmarks/zkvm/risc0/methods)
+   Compiling risc0-host v0.1.0 (/zkvm_benchmarks/zkvm/risc0/host)
+warning: unused import: `env::temp_dir`
+ --> zkvm/risc0/host/src/main.rs:7:11
+  |
+7 | use std::{env::temp_dir, time::Instant};
+  |           ^^^^^^^^^^^^^
+  |
+  = note: `#[warn(unused_imports)]` (part of `#[warn(unused)]`) on by default
+
+warning: `risc0-host` (bin "risc0-host") generated 1 warning (run `cargo fix --bin "risc0-host" -p risc0-host` to apply 1 suggestion)
+    Finished `release` profile [optimized + debuginfo] target(s) in 1m 23s
+     Running `target/release/risc0-host --n-signatures 1 --max-segment-limit 21`
+Loading signatures from cache...
+^[[2m2026-04-20T20:17:23.718674Z^[[0m ^[[32m INFO^[[0m ^[[2mrisc0_zkvm::host::server::exec::executor^[[0m^[[2m:^[[0m execution time: 1.175769562s
+^[[2m2026-04-20T20:17:23.718713Z^[[0m ^[[32m INFO^[[0m ^[[2mrisc0_zkvm::host::server::session^[[0m^[[2m:^[[0m number of segments: 39
+^[[2m2026-04-20T20:17:23.718719Z^[[0m ^[[32m INFO^[[0m ^[[2mrisc0_zkvm::host::server::session^[[0m^[[2m:^[[0m 81788928 total cycles
+^[[2m2026-04-20T20:17:23.718723Z^[[0m ^[[32m INFO^[[0m ^[[2mrisc0_zkvm::host::server::session^[[0m^[[2m:^[[0m 77372969 user cycles (94.60%)
+^[[2m2026-04-20T20:17:23.718728Z^[[0m ^[[32m INFO^[[0m ^[[2mrisc0_zkvm::host::server::session^[[0m^[[2m:^[[0m 3234351 paging cycles (3.95%)
+^[[2m2026-04-20T20:17:23.718732Z^[[0m ^[[32m INFO^[[0m ^[[2mrisc0_zkvm::host::server::session^[[0m^[[2m:^[[0m 1181608 reserved cycles (1.44%)
+^[[2m2026-04-20T20:17:23.718736Z^[[0m ^[[32m INFO^[[0m ^[[2mrisc0_zkvm::host::server::session^[[0m^[[2m:^[[0m ecalls
+^[[2m2026-04-20T20:17:23.718740Z^[[0m ^[[32m INFO^[[0m ^[[2mrisc0_zkvm::host::server::session^[[0m^[[2m:^[[0m   37 Read calls, 412 cycles, (0.00%)
+^[[2m2026-04-20T20:17:23.718745Z^[[0m ^[[32m INFO^[[0m ^[[2mrisc0_zkvm::host::server::session^[[0m^[[2m:^[[0m   4 Sha2 calls, 296 cycles, (0.00%)
+^[[2m2026-04-20T20:17:23.718749Z^[[0m ^[[32m INFO^[[0m ^[[2mrisc0_zkvm::host::server::session^[[0m^[[2m:^[[0m   1 Terminate calls, 2 cycles, (0.00%)
+^[[2m2026-04-20T20:17:23.718752Z^[[0m ^[[32m INFO^[[0m ^[[2mrisc0_zkvm::host::server::session^[[0m^[[2m:^[[0m   0 Write calls, 0 cycles, (0.00%)
+^[[2m2026-04-20T20:17:23.718755Z^[[0m ^[[32m INFO^[[0m ^[[2mrisc0_zkvm::host::server::session^[[0m^[[2m:^[[0m   0 User calls, 0 cycles, (0.00%)
+^[[2m2026-04-20T20:17:23.718759Z^[[0m ^[[32m INFO^[[0m ^[[2mrisc0_zkvm::host::server::session^[[0m^[[2m:^[[0m   0 Poseidon2 calls, 0 cycles, (0.00%)
+^[[2m2026-04-20T20:17:23.718762Z^[[0m ^[[32m INFO^[[0m ^[[2mrisc0_zkvm::host::server::session^[[0m^[[2m:^[[0m   0 BigInt calls, 0 cycles, (0.00%)
+^[[2m2026-04-20T20:17:23.718765Z^[[0m ^[[32m INFO^[[0m ^[[2mrisc0_zkvm::host::server::session^[[0m^[[2m:^[[0m syscalls
+^[[2m2026-04-20T20:17:23.718769Z^[[0m ^[[32m INFO^[[0m ^[[2mrisc0_zkvm::host::server::session^[[0m^[[2m:^[[0m   16 Read calls
+^[[2m2026-04-20T20:17:23.718773Z^[[0m ^[[32m INFO^[[0m ^[[2mrisc0_zkvm::host::server::session^[[0m^[[2m:^[[0m   0 Write calls
+^[[2m2026-04-20T20:17:23.718776Z^[[0m ^[[32m INFO^[[0m ^[[2mrisc0_zkvm::host::server::session^[[0m^[[2m:^[[0m   0 VerifyIntegrity2 calls
+^[[2m2026-04-20T20:17:23.718779Z^[[0m ^[[32m INFO^[[0m ^[[2mrisc0_zkvm::host::server::session^[[0m^[[2m:^[[0m   0 VerifyIntegrity calls
+^[[2m2026-04-20T20:17:23.718782Z^[[0m ^[[32m INFO^[[0m ^[[2mrisc0_zkvm::host::server::session^[[0m^[[2m:^[[0m   0 ProveKeccak calls
+^[[2m2026-04-20T20:17:23.718785Z^[[0m ^[[32m INFO^[[0m ^[[2mrisc0_zkvm::host::server::session^[[0m^[[2m:^[[0m   0 Keccak calls
+Execution time: 1215
+Number of cycles: 77372969
+Proving time: 109228
+Proof size: 223182 bytes
+Verfication time: 12
+vram: 21112

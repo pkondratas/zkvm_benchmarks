@@ -1,0 +1,31 @@
+  GNU nano 7.2                                                                                                                         risc0_10_sig.txt *                                                                                                                                 
+    Finished `release` profile [optimized + debuginfo] target(s) in 1m 39s
+     Running `target/release/risc0-host --n-signatures 10 --max-segment-limit 21`
+Loading signatures from cache...
+^[[2m2026-04-20T20:29:08.931968Z^[[0m ^[[32m INFO^[[0m ^[[2mrisc0_zkvm::host::server::exec::executor^[[0m^[[2m:^[[0m execution time: 7.815979783s
+^[[2m2026-04-20T20:29:08.931996Z^[[0m ^[[32m INFO^[[0m ^[[2mrisc0_zkvm::host::server::session^[[0m^[[2m:^[[0m number of segments: 176
+^[[2m2026-04-20T20:29:08.932001Z^[[0m ^[[32m INFO^[[0m ^[[2mrisc0_zkvm::host::server::session^[[0m^[[2m:^[[0m 368050176 total cycles
+^[[2m2026-04-20T20:29:08.932004Z^[[0m ^[[32m INFO^[[0m ^[[2mrisc0_zkvm::host::server::session^[[0m^[[2m:^[[0m 353056140 user cycles (95.93%)
+^[[2m2026-04-20T20:29:08.932009Z^[[0m ^[[32m INFO^[[0m ^[[2mrisc0_zkvm::host::server::session^[[0m^[[2m:^[[0m 9615884 paging cycles (2.61%)
+^[[2m2026-04-20T20:29:08.932012Z^[[0m ^[[32m INFO^[[0m ^[[2mrisc0_zkvm::host::server::session^[[0m^[[2m:^[[0m 5378152 reserved cycles (1.46%)
+^[[2m2026-04-20T20:29:08.932015Z^[[0m ^[[32m INFO^[[0m ^[[2mrisc0_zkvm::host::server::session^[[0m^[[2m:^[[0m ecalls
+^[[2m2026-04-20T20:29:08.932018Z^[[0m ^[[32m INFO^[[0m ^[[2mrisc0_zkvm::host::server::session^[[0m^[[2m:^[[0m   123 Read calls, 3392 cycles, (0.00%)
+^[[2m2026-04-20T20:29:08.932021Z^[[0m ^[[32m INFO^[[0m ^[[2mrisc0_zkvm::host::server::session^[[0m^[[2m:^[[0m   4 Sha2 calls, 296 cycles, (0.00%)
+^[[2m2026-04-20T20:29:08.932024Z^[[0m ^[[32m INFO^[[0m ^[[2mrisc0_zkvm::host::server::session^[[0m^[[2m:^[[0m   1 Terminate calls, 2 cycles, (0.00%)
+^[[2m2026-04-20T20:29:08.932027Z^[[0m ^[[32m INFO^[[0m ^[[2mrisc0_zkvm::host::server::session^[[0m^[[2m:^[[0m   0 Write calls, 0 cycles, (0.00%)
+^[[2m2026-04-20T20:29:08.932029Z^[[0m ^[[32m INFO^[[0m ^[[2mrisc0_zkvm::host::server::session^[[0m^[[2m:^[[0m   0 User calls, 0 cycles, (0.00%)
+^[[2m2026-04-20T20:29:08.932032Z^[[0m ^[[32m INFO^[[0m ^[[2mrisc0_zkvm::host::server::session^[[0m^[[2m:^[[0m   0 Poseidon2 calls, 0 cycles, (0.00%)
+^[[2m2026-04-20T20:29:08.932034Z^[[0m ^[[32m INFO^[[0m ^[[2mrisc0_zkvm::host::server::session^[[0m^[[2m:^[[0m   0 BigInt calls, 0 cycles, (0.00%)
+^[[2m2026-04-20T20:29:08.932037Z^[[0m ^[[32m INFO^[[0m ^[[2mrisc0_zkvm::host::server::session^[[0m^[[2m:^[[0m syscalls
+^[[2m2026-04-20T20:29:08.932040Z^[[0m ^[[32m INFO^[[0m ^[[2mrisc0_zkvm::host::server::session^[[0m^[[2m:^[[0m   59 Read calls
+^[[2m2026-04-20T20:29:08.932043Z^[[0m ^[[32m INFO^[[0m ^[[2mrisc0_zkvm::host::server::session^[[0m^[[2m:^[[0m   0 Write calls
+^[[2m2026-04-20T20:29:08.932045Z^[[0m ^[[32m INFO^[[0m ^[[2mrisc0_zkvm::host::server::session^[[0m^[[2m:^[[0m   0 VerifyIntegrity2 calls
+^[[2m2026-04-20T20:29:08.932048Z^[[0m ^[[32m INFO^[[0m ^[[2mrisc0_zkvm::host::server::session^[[0m^[[2m:^[[0m   0 VerifyIntegrity calls
+^[[2m2026-04-20T20:29:08.932050Z^[[0m ^[[32m INFO^[[0m ^[[2mrisc0_zkvm::host::server::session^[[0m^[[2m:^[[0m   0 ProveKeccak calls
+^[[2m2026-04-20T20:29:08.932053Z^[[0m ^[[32m INFO^[[0m ^[[2mrisc0_zkvm::host::server::session^[[0m^[[2m:^[[0m   0 Keccak calls
+Execution time: 7857
+Number of cycles: 353056140
+Proving time: 509408
+Proof size: 223182 bytes
+Verfication time: 12
+vram: 21128
