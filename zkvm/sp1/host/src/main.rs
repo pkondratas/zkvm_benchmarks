@@ -4,7 +4,7 @@ use common::{generate_signatures, utils};
 use leansig::serialization::Serializable;
 use sp1_core_executor::SP1CoreOpts;
 use sp1_sdk::{
-    CudaProver, Elf, ProveRequest, Prover, ProverClient, SP1Stdin, include_elf
+    CpuProver, Elf, ProveRequest, Prover, ProverClient, ProvingKey, SP1Stdin, include_elf
 };
 
 #[derive(Subcommand, Debug)]
@@ -29,7 +29,7 @@ struct Args {
 
 const ELF: Elf = include_elf!("sp1_xmss_benchmark");
 
-async fn execute_xmss_verification(stdin: SP1Stdin, client: CudaProver) {
+async fn execute_xmss_verification(stdin: SP1Stdin, client: CpuProver) {
     let time = Instant::now();
     let (_, report) = client.execute(ELF, stdin).await.unwrap();
     println!("Execution time: {}", time.elapsed().as_millis());
@@ -37,7 +37,7 @@ async fn execute_xmss_verification(stdin: SP1Stdin, client: CudaProver) {
     println!("Number of cycles: {}", report.total_instruction_count());
 }
 
-async fn prove_xmss_verification(stdin: SP1Stdin, client: CudaProver) {
+async fn prove_xmss_verification(stdin: SP1Stdin, client: CpuProver) {
     let pk = client.setup(ELF).await.unwrap();
 
     let time = Instant::now();
@@ -90,7 +90,7 @@ async fn main() {
     let opts = SP1CoreOpts::default();
 
     let client = ProverClient::builder()
-        .cuda()
+        .cpu()
         .with_opts(opts)
         .build()
         .await;

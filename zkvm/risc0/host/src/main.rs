@@ -3,8 +3,8 @@ use leansig::{
     serialization::Serializable
 };
 use methods::{RISC0_XMSS_BENCHMARK_ELF, RISC0_XMSS_BENCHMARK_ID};
-use risc0_zkvm::{ExecutorEnv, ExecutorImpl, ProverOpts, VerifierContext, get_prover_server};
-use std::{env::temp_dir, time::Instant};
+use risc0_zkvm::{ExecutorEnv, ProverOpts, VerifierContext, default_executor, default_prover};
+use std::{time::Instant};
 use clap::{Parser};
 
 #[derive(Parser)]
@@ -58,21 +58,12 @@ fn main() {
 
     let opts = ProverOpts::succinct();
 
-    let prover = get_prover_server(&opts).unwrap();
-    let ctx = VerifierContext::default();
+    let prover = default_prover();
 
     let time = Instant::now();
-    let session = ExecutorImpl::from_elf(env, &RISC0_XMSS_BENCHMARK_ELF)
-        .unwrap()
-        .run()
-        .unwrap();
+    
+    let receipt = prover.prove_with_opts(env, RISC0_XMSS_BENCHMARK_ELF, &opts).unwrap().receipt;
     println!("Execution time: {}", time.elapsed().as_millis());
-
-    println!("Number of cycles: {}", session.user_cycles);
-
-    let time = Instant::now();
-    let receipt = prover.prove_session(&ctx, &session).unwrap().receipt;
-    println!("Proving time: {}", time.elapsed().as_millis());
 
     let size = utils::get_proof_size(&receipt.inner.succinct().unwrap());
     println!("Proof size: {} bytes", size);
