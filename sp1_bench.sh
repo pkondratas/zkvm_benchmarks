@@ -1,5 +1,7 @@
 #!/bin/bash
 
+# /usr/bin/time -v /root/.cargo/bin/cargo
+
 # max=0; while true; do vram=$(nvidia-smi --query-gpu=memory.used --format=csv,noheader,nounits | tr -d '\r'); if [ "$vram" -gt "$max" ]; then max=$vram; fi; echo -ne "Current: ${vram} MiB | Max: ${max} MiB\r"; sleep 1; done
 
 # SP1
