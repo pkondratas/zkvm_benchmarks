@@ -1,5 +1,5 @@
 resource "runpod_network_volume" "storage" {
-  name           = "my-storage"
+  name           = "storage"
   size           = 10
 
   data_center_id = "EU-RO-1"
@@ -11,7 +11,7 @@ resource "runpod_pod" "gpu_instance" {
   name              = "gpu-instance"
   image_name        = "pkondratas/zkvm-gpu-bench"
   compute_type      = "GPU"
-  gpu_type_ids      = ["NVIDIA RTX A4500"]  #["NVIDIA RTX PRO 4500 Blackwell"]
+  gpu_type_ids      = ["NVIDIA RTX PRO 4500 Blackwell"]
   data_center_ids   = ["EU-RO-1"]
 
   gpu_count            = 1
@@ -19,7 +19,6 @@ resource "runpod_pod" "gpu_instance" {
   support_public_ip    = true
   network_volume_id    = runpod_network_volume.storage.id
 
-  volume_in_gb         = 0
   container_disk_in_gb = 50
 
   ports = ["8888/http", "22/tcp"]
@@ -37,11 +36,10 @@ resource "runpod_pod" "cpu_instance" {
   support_public_ip    = true
   network_volume_id    = runpod_network_volume.storage.id
 
-  cpu_flavor_ids       = ["cpu3g"] # ["cpu5c"]
+  cpu_flavor_ids       = ["cpu5c"]
 
-  #vcpu_count           = 32
-  volume_in_gb         = 50
-  container_disk_in_gb = 5
+  vcpu_count           = 32
+  container_disk_in_gb = 50
 
   ports = ["8888/http", "22/tcp"]
 }
