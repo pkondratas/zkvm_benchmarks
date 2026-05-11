@@ -6,10 +6,6 @@
 
 mkdir -p /workspace/cpu
 
-git clone --no-recurse-submodules https://github.com/pkondratas/zkvm_benchmarks.git
-cd zkvm_benchmarks
-git submodule update --init leanSig
-
 # SP1
 RUSTFLAGS="-C target-cpu=native" RUST_LOG=info cargo run --release -p sp1-host-gpu -- --n-signatures 1 --max-segment-limit 20 execute 2>&1 | tee -a sp1_1_sig.txt
 RUSTFLAGS="-C target-cpu=native" RUST_LOG=info cargo run --release -p sp1-host-gpu -- --n-signatures 1 --max-segment-limit 20 prove 2>&1 | tee -a sp1_1_sig.txt
