@@ -14,10 +14,10 @@ fn generate_xmss_signatures<S: SignatureScheme>(n: usize) -> (S::PublicKey, Vec<
     let (pk, sk) = S::key_gen(&mut rng, 0, S::LIFETIME as usize);
     let prepared_interval = sk.get_prepared_interval();
 
+    let message = rng.random();
     let signing_rounds: Vec<XmssSigningRound<S>> = (0..n)
         .map(|_| {
-            let message = rng.random();
-            let epoch =
+            let epoch: u32 =
                 rng.random_range(prepared_interval.start as u32..prepared_interval.end as u32);
 
             let signature = S::sign(&sk, epoch, &message).unwrap();

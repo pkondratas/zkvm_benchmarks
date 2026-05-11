@@ -1,9 +1,0 @@
-[package]
-name = "testing"
-version = "0.1.0"
-edition = "2024"
-
-[dependencies]
-leansig = { path = "../../leanSig" }
-common = { path = "../../common" }
-risc0-zkvm = { version = "^3.0.5", default-features = false, features = ['std'] }

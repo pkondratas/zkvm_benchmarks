@@ -1,0 +1,28 @@
+name: zkvm-bench-cd
+
+on:
+  workflow_call:
+    inputs:
+      tag:
+        required: true
+        type: string
+  workflow_dispatch:
+    inputs:
+      tag:
+        required: true
+        type: choice
+        options:
+          - pkondratas/zkvm-gpu-bench:latest
+          - pkondratas/zkvm-cpu-bench:latest
+        default: pkondratas/zkvm-cpu-bench:latest
+
+jobs:
+  cd:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout branch
+      uses: actions/checkout@v6
+
+    - name: Setup Terraform
+      uses: hashicorp/setup-terraform@v4

@@ -1,5 +1,5 @@
 [package]
-name = "risc0-host"
+name = "risc0-host-cpu"
 version = "0.1.0"
 edition = "2021"
 
