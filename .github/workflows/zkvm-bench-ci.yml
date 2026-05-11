@@ -19,7 +19,7 @@ on:
 env:
   CARGO_TERM_COLOR: always
   PROVER: ${{ github.ref_name == 'gpu-proving' && 'gpu' || 'cpu'}}
-  IMAGE_TAG: pkondratas/zkvm-${{ env.PROVER }}-bench:latest
+  IMAGE_TAG: pkondratas/zkvm-${{ github.ref_name == 'gpu-proving' && 'gpu' || 'cpu'}}-bench:latest
 
 jobs:
   ci:
@@ -51,4 +51,4 @@ jobs:
       if: ${{ inputs.cd == true }}
       uses: ./.github/workflows/zkvm-bench-cd.yml
       with:
-        tag: ${{ inputs.branch }}  
+        tag: ${{ env.IMAGE_TAG }}  
