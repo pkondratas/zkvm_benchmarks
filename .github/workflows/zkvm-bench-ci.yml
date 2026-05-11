@@ -3,13 +3,26 @@ name: zkvm-bench-ci
 on:
   push:
     branches: [ "gpu-proving", "cpu-proving" ]
+  workflow_dispatch:
+    inputs:
+      branch:
+        required: true
+        type: choice
+        options:
+          - gpu-proving
+          - cpu-proving
+        default: "cpu-proving"
+      cd:
+        type: boolean
+        default: false
 
 env:
   CARGO_TERM_COLOR: always
-  TAG: ${{ github.ref_name == 'gpu-proving' && 'gpu' || 'cpu'}}
+  PROVER: ${{ github.ref_name == 'gpu-proving' && 'gpu' || 'cpu'}}
+  IMAGE_TAG: pkondratas/zkvm-${{ env.PROVER }}-bench:latest
 
 jobs:
-  build:
+  ci:
     runs-on: ubuntu-latest
 
     steps:
@@ -31,5 +44,11 @@ jobs:
       uses: docker/build-push-action@v7
       with:
         push: true
-        tags: pkondratas/zkvm-${{ env.TAG }}-bench:latest
-        file: ./Dockerfile.${{ env.TAG }}
+        tags: ${{ env.IMAGE_TAG }}
+        file: ./Dockerfile.${{ env.PROVER }}
+
+    - name: Deploy
+      if: ${{ inputs.cd == true }}
+      uses: ./.github/workflows/zkvm-bench-cd.yml
+      with:
+        tag: ${{ inputs.branch }}  
