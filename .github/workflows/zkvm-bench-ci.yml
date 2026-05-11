@@ -16,8 +16,8 @@ on:
         default: cpu
 
 env:
-  PROVER: ${{ (equals(github.event.inputs.prover, 'gpu') || startsWith(github.ref_name, 'gpu/')) && 'gpu' || 'cpu' }}
-  IMAGE_TAG: pkondratas/zkvm-${{ (equals(github.event.inputs.prover, 'gpu') || startsWith(github.ref_name, 'gpu/')) && 'gpu' || 'cpu' }}-bench:latest
+  PROVER: ${{ (github.event.inputs.prover == 'gpu' || startsWith(github.ref_name, 'gpu/')) && 'gpu' || 'cpu' }}
+  IMAGE_TAG: pkondratas/zkvm-${{ (github.event.inputs.prover == 'gpu' || startsWith(github.ref_name, 'gpu/')) && 'gpu' || 'cpu' }}-bench:latest
 
 jobs:
   ci:
