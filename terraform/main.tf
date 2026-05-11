@@ -1,5 +1,5 @@
 resource "runpod_network_volume" "storage" {
-  name           = "my-storage"
+  name           = "storage"
   size           = 10
 
   data_center_id = "EU-RO-1"
@@ -19,7 +19,6 @@ resource "runpod_pod" "gpu_instance" {
   support_public_ip    = true
   network_volume_id    = runpod_network_volume.storage.id
 
-  volume_in_gb         = 0
   container_disk_in_gb = 50
 
   ports = ["8888/http", "22/tcp"]
@@ -40,8 +39,7 @@ resource "runpod_pod" "cpu_instance" {
   cpu_flavor_ids       = ["cpu5c"]
 
   vcpu_count           = 32
-  volume_in_gb         = 50
-  container_disk_in_gb = 5
+  container_disk_in_gb = 50
 
   ports = ["8888/http", "22/tcp"]
 }
