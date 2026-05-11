@@ -1,7 +1,9 @@
-name: zkvm-bench-ci
+name: zkvm-bench-build-image
 
 on:
   push:
+    branches: [ "gpu/*", "cpu/*" ]
+  pull_request:
     branches: [ "gpu/*", "cpu/*" ]
   workflow_dispatch:
     inputs:
@@ -12,12 +14,9 @@ on:
           - gpu
           - cpu
         default: cpu
-      cd:
-        type: boolean
-        default: false
 
 env:
-  CARGO_TERM_COLOR: always
+  MANUAL_RUN: ${{ github.event_name == 'workflow_dispatch' }}
   PROVER: ${{ (equals(github.event.inputs.prover, 'gpu') || startsWith(github.ref_name, 'gpu/')) && 'gpu' || 'cpu' }}
   IMAGE_TAG: pkondratas/zkvm-${{ (equals(github.event.inputs.prover, 'gpu') || startsWith(github.ref_name, 'gpu/')) && 'gpu' || 'cpu' }}-bench:latest
 
@@ -31,24 +30,29 @@ jobs:
       with:
         submodules: recursive
 
+    - name: Check if Dockerfile modified
+      id: changes
+      uses: dorny/paths-filter@v4
+      with:
+        filters: |
+          docker:
+            - Dockerfile.*
+
     - name: Login to Docker Hub
+      if: steps.changes.outputs.docker == 'true' || env.MANUAL_RUN == 'true'
       uses: docker/login-action@v4
       with:
         username: ${{ secrets.DOCKERHUB_USERNAME }}
         password: ${{ secrets.DOCKERHUB_TOKEN }}
 
     - name: Set up Docker Buildx
+      if: steps.changes.outputs.docker == 'true' || env.MANUAL_RUN == 'true'
       uses: docker/setup-buildx-action@v4
 
     - name: Build and push
+      if: steps.changes.outputs.docker == 'true' || env.MANUAL_RUN == 'true'
       uses: docker/build-push-action@v7
       with:
         push: true
         tags: ${{ env.IMAGE_TAG }}
         file: ./Dockerfile.${{ env.PROVER }}
-
-    - name: Deploy
-      if: ${{ inputs.cd == true }}
-      uses: ./.github/workflows/zkvm-bench-cd.yml
-      with:
-        tag: ${{ env.IMAGE_TAG }}  
