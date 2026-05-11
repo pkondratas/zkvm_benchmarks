@@ -56,7 +56,7 @@ fn main() {
         .build()
         .unwrap();
 
-    let opts = ProverOpts::succinct();
+    let opts = ProverOpts::composite();
 
     let prover = default_prover();
 
