@@ -1,6 +1,6 @@
   GNU nano 7.2                                                                                                                         risc0_10_sig.txt *                                                                                                                                 
     Finished `release` profile [optimized + debuginfo] target(s) in 1m 39s
-     Running `target/release/risc0-host --n-signatures 10 --max-segment-limit 21`
+     Running `target/release/risc0-host-gpu --n-signatures 10 --max-segment-limit 21`
 Loading signatures from cache...
 ^[[2m2026-04-20T20:29:08.931968Z^[[0m ^[[32m INFO^[[0m ^[[2mrisc0_zkvm::host::server::exec::executor^[[0m^[[2m:^[[0m execution time: 7.815979783s
 ^[[2m2026-04-20T20:29:08.931996Z^[[0m ^[[32m INFO^[[0m ^[[2mrisc0_zkvm::host::server::session^[[0m^[[2m:^[[0m number of segments: 176

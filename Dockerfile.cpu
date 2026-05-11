@@ -5,7 +5,6 @@ RUN apt update && apt install -y curl build-essential libssl-dev pkg-config git 
 RUN git clone --no-recurse-submodules https://github.com/pkondratas/zkvm_benchmarks.git && \
     cd zkvm_benchmarks && \
     git submodule update --init leanSig && \
-    git checkout cpu-proving
 
 RUN curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y
 ENV PATH="/root/.cargo/bin:$PATH"
@@ -22,4 +21,4 @@ RUN sp1up
 
 WORKDIR /zkvm_benchmarks/
 
-CMD ["/bin/bash"]
+ENTRYPOINT ["/bin/bash", "bench_cpu.sh"]

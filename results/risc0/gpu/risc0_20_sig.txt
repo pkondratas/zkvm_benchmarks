@@ -2,7 +2,7 @@ warning: profiles for the non root package will be ignored, specify profiles at 
 package:   /zkvm_benchmarks/leanSig/Cargo.toml
 workspace: /zkvm_benchmarks/Cargo.toml
    Compiling methods v0.1.0 (/zkvm_benchmarks/zkvm/risc0/methods)
-   Compiling risc0-host v0.1.0 (/zkvm_benchmarks/zkvm/risc0/host)
+   Compiling risc0-host-gpu v0.1.0 (/zkvm_benchmarks/zkvm/risc0/host)
 warning: unused import: `env::temp_dir`
  --> zkvm/risc0/host/src/main.rs:7:11
   |
@@ -11,9 +11,9 @@ warning: unused import: `env::temp_dir`
   |
   = note: `#[warn(unused_imports)]` (part of `#[warn(unused)]`) on by default
 
-warning: `risc0-host` (bin "risc0-host") generated 1 warning (run `cargo fix --bin "risc0-host" -p risc0-host` to apply 1 suggestion)
+warning: `risc0-host-gpu` (bin "risc0-host-gpu") generated 1 warning (run `cargo fix --bin "risc0-host-gpu" -p risc0-host-gpu` to apply 1 suggestion)
     Finished `release` profile [optimized + debuginfo] target(s) in 1m 37s
-     Running `target/release/risc0-host --n-signatures 20 --max-segment-limit 21`
+     Running `target/release/risc0-host-gpu --n-signatures 20 --max-segment-limit 21`
 Loading signatures from cache...
 ^[[2m2026-04-20T20:50:02.880465Z^[[0m ^[[32m INFO^[[0m ^[[2mrisc0_zkvm::host::server::exec::executor^[[0m^[[2m:^[[0m execution time: 14.781>
 ^[[2m2026-04-20T20:50:02.880560Z^[[0m ^[[32m INFO^[[0m ^[[2mrisc0_zkvm::host::server::session^[[0m^[[2m:^[[0m number of segments: 327

@@ -2,24 +2,24 @@ name: zkvm-bench-ci
 
 on:
   push:
-    branches: [ "gpu-proving", "cpu-proving" ]
+    branches: [ "gpu/*", "cpu/*" ]
   workflow_dispatch:
     inputs:
-      branch:
+      prover:
         required: true
         type: choice
         options:
-          - gpu-proving
-          - cpu-proving
-        default: "cpu-proving"
+          - gpu
+          - cpu
+        default: cpu
       cd:
         type: boolean
         default: false
 
 env:
   CARGO_TERM_COLOR: always
-  PROVER: ${{ github.ref_name == 'gpu-proving' && 'gpu' || 'cpu'}}
-  IMAGE_TAG: pkondratas/zkvm-${{ github.ref_name == 'gpu-proving' && 'gpu' || 'cpu'}}-bench:latest
+  PROVER: ${{ (equals(github.event.inputs.prover, 'gpu') || startsWith(github.ref_name, 'gpu/')) && 'gpu' || 'cpu' }}
+  IMAGE_TAG: pkondratas/zkvm-${{ (equals(github.event.inputs.prover, 'gpu') || startsWith(github.ref_name, 'gpu/')) && 'gpu' || 'cpu' }}-bench:latest
 
 jobs:
   ci:

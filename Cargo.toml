@@ -1,6 +1,6 @@
 [workspace]
 resolver = "2"
-members = ["zkvm/risc0/host", "zkvm/risc0/methods", "leanSig", "common", "zkvm/sp1/host", "zkvm/sp1/program"]
+members = ["zkvm/risc0/host-gpu", "zkvm/risc0/host-cpu", "zkvm/risc0/methods", "leanSig", "common", "zkvm/sp1/host-gpu", "zkvm/sp1/host-cpu", "zkvm/sp1/program"]
 
 # Always optimize; building and running the guest takes much longer without optimization.
 [profile.dev]
