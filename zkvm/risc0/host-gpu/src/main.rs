@@ -65,7 +65,7 @@ fn main() {
     let receipt = prover.prove_with_opts(env, RISC0_XMSS_BENCHMARK_ELF, &opts).unwrap().receipt;
     println!("Execution time: {}", time.elapsed().as_millis());
 
-    let size = utils::get_proof_size(&receipt.inner.succinct().unwrap());
+    let size = utils::get_proof_size(&receipt.inner.composite().unwrap());
     println!("Proof size: {} bytes", size);
 
     let time = Instant::now();
