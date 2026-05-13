@@ -32,6 +32,7 @@ const ELF: Elf = include_elf!("sp1_xmss_benchmark");
 async fn execute_xmss_verification(stdin: SP1Stdin, client: CpuProver) {
     let time = Instant::now();
     let (_, report) = client.execute(ELF, stdin).await.unwrap();
+
     println!("Execution time: {}", time.elapsed().as_millis());
     
     println!("Number of cycles: {}", report.total_instruction_count());
@@ -71,12 +72,12 @@ async fn main() {
     let pk_bytes = public_key.to_bytes();
 
     let mut epochs_bytes: Vec<u8> = vec![];
-    let mut messages_bytes: Vec<u8> = vec![];
+    let mut message_bytes: Vec<u8> = vec![];
     let mut signatures_bytes: Vec<u8> = vec![];
 
     signatures_rounds.iter().for_each(|s| {
         epochs_bytes.extend_from_slice(&s.epoch.to_le_bytes());
-        messages_bytes.extend(s.message.to_bytes());
+        message_bytes.extend(s.message.to_bytes());
         signatures_bytes.extend(s.signature.to_bytes());
     });
 
@@ -84,7 +85,7 @@ async fn main() {
 
     stdin.write_vec(pk_bytes);
     stdin.write_vec(epochs_bytes);
-    stdin.write_vec(messages_bytes);
+    stdin.write_vec(message_bytes);
     stdin.write_vec(signatures_bytes);
 
     let opts = SP1CoreOpts::default();
