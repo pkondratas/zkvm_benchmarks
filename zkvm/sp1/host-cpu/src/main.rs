@@ -33,6 +33,8 @@ async fn execute_xmss_verification(stdin: SP1Stdin, client: CpuProver) {
     let time = Instant::now();
     let (_, report) = client.execute(ELF, stdin).await.unwrap();
 
+    assert!(report.exit_code == 0);
+
     println!("Execution time: {}", time.elapsed().as_millis());
     
     println!("Number of cycles: {}", report.total_instruction_count());
