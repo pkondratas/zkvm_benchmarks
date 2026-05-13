@@ -30,12 +30,12 @@ fn main() {
     let pk_bytes = public_key.to_bytes();
 
     let mut epochs_bytes: Vec<u8> = vec![];
-    let mut messages_bytes: Vec<u8> = vec![];
+    let mut message_bytes: Vec<u8> = vec![];
     let mut signatures_bytes: Vec<u8> = vec![];
 
     signatures_rounds.iter().for_each(|s| {
         epochs_bytes.extend_from_slice(&s.epoch.to_le_bytes());
-        messages_bytes.extend(s.message.to_bytes());
+        message_bytes.extend(s.message.to_bytes());
         signatures_bytes.extend(s.signature.to_bytes());
     });
     
@@ -44,13 +44,13 @@ fn main() {
         .unwrap()
         .write(&epochs_bytes.len())
         .unwrap()
-        .write(&messages_bytes.len())
+        .write(&message_bytes.len())
         .unwrap()
         .write(&signatures_bytes.len())
         .unwrap()
         .write_slice(&pk_bytes)
         .write_slice(&epochs_bytes)
-        .write_slice(&messages_bytes)
+        .write_slice(&message_bytes)
         .write_slice(&signatures_bytes)
         .segment_limit_po2(args.max_segment_limit)
         .build()
