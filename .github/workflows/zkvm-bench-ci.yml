@@ -27,6 +27,7 @@ jobs:
     - name: Checkout branch
       uses: actions/checkout@v6
       with:
+        ref: ${{ github.event_name == 'workflow_dispatch' && 'main' || github.ref_name }}
         submodules: recursive
 
     - name: Login to Docker Hub

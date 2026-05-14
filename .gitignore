@@ -3,6 +3,7 @@ Cargo.lock
 methods/guest/Cargo.lock
 target/
 signatures_cache*.bin
+!signatures_cache1.bin
 *_results.txt
 
 terraform/.terraform/
