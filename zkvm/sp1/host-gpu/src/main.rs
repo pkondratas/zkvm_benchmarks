@@ -41,7 +41,7 @@ async fn prove_xmss_verification(stdin: SP1Stdin, client: CudaProver) {
     let pk = client.setup(ELF).await.unwrap();
 
     let time = Instant::now();
-    let proof = client.prove(&pk, stdin).core().await.unwrap();
+    let proof = client.prove(&pk, stdin).compressed().await.unwrap();
     println!("Proving time: {}", time.elapsed().as_millis());
 
     let size = utils::get_proof_size(&proof);
