@@ -50,4 +50,4 @@ mkdir -p /workspace/gpu
 echo "Running SP1 Hypercube benchmarks | GPU | 200 signature"
 RUSTFLAGS="-C target-cpu=native" RUST_LOG=info RISC0_INFO=1 /usr/bin/time -v /root/.cargo/bin/cargo run --release -p risc0-host-gpu -- --n-signatures 200 --max-segment-limit 21 2>&1 | tee -a /workspace/gpu/risc0_200_sig.txt
 
-runpodctl remove pod $RUNPOD_POD_ID
+# runpodctl remove pod $RUNPOD_POD_ID
