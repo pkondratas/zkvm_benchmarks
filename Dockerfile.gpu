@@ -20,4 +20,4 @@ RUN sp1up
 
 WORKDIR /zkvm_benchmarks/
 
-ENTRYPOINT ["/bin/bash", "bench_gpu.sh"]
+# ENTRYPOINT ["/bin/bash", "bench_gpu.sh"]

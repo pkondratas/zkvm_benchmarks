@@ -24,18 +24,17 @@ fn main() {
 
     let args = Args::parse();
 
-    let (public_key, signatures_rounds) =
+    let (public_key, message, signatures_rounds) =
         generate_signatures::generate_and_cache_signatures(args.n_signatures);
 
     let pk_bytes = public_key.to_bytes();
+    let message_bytes = message.to_bytes();
 
     let mut epochs_bytes: Vec<u8> = vec![];
-    let mut message_bytes: Vec<u8> = vec![];
     let mut signatures_bytes: Vec<u8> = vec![];
 
     signatures_rounds.iter().for_each(|s| {
         epochs_bytes.extend_from_slice(&s.epoch.to_le_bytes());
-        message_bytes.extend(s.message.to_bytes());
         signatures_bytes.extend(s.signature.to_bytes());
     });
     
@@ -56,7 +55,7 @@ fn main() {
         .build()
         .unwrap();
 
-    let opts = ProverOpts::composite();
+    let opts = ProverOpts::succinct();
 
     let prover = default_prover();
 
@@ -65,7 +64,7 @@ fn main() {
     let receipt = prover.prove_with_opts(env, RISC0_XMSS_BENCHMARK_ELF, &opts).unwrap().receipt;
     println!("Execution time: {}", time.elapsed().as_millis());
 
-    let size = utils::get_proof_size(&receipt.inner.composite().unwrap());
+    let size = utils::get_proof_size(&receipt.inner.succinct().unwrap());
     println!("Proof size: {} bytes", size);
 
     let time = Instant::now();

@@ -41,7 +41,7 @@ async fn prove_xmss_verification(stdin: SP1Stdin, client: CudaProver) {
     let pk = client.setup(ELF).await.unwrap();
 
     let time = Instant::now();
-    let proof = client.prove(&pk, stdin).core().await.unwrap();
+    let proof = client.prove(&pk, stdin).compressed().await.unwrap();
     println!("Proving time: {}", time.elapsed().as_millis());
 
     let size = utils::get_proof_size(&proof);
@@ -65,18 +65,17 @@ async fn main() {
 
     std::env::set_var("HEIGHT_THRESHOLD", format!("{}", max_shards_po2));
 
-    let (public_key, signatures_rounds) =
+    let (public_key, message, signatures_rounds) =
         generate_signatures::generate_and_cache_signatures(args.n_signatures);
 
     let pk_bytes = public_key.to_bytes();
+    let message_bytes = message.to_bytes();
 
     let mut epochs_bytes: Vec<u8> = vec![];
-    let mut message_bytes: Vec<u8> = vec![];
     let mut signatures_bytes: Vec<u8> = vec![];
 
     signatures_rounds.iter().for_each(|s| {
         epochs_bytes.extend_from_slice(&s.epoch.to_le_bytes());
-        message_bytes.extend(s.message.to_bytes());
         signatures_bytes.extend(s.signature.to_bytes());
     });
 

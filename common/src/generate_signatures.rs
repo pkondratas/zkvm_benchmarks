@@ -7,8 +7,9 @@ use rand::RngExt;
 
 use crate::signing_round::XmssSigningRound;
 
+pub type Message = [u8; 32];
 
-fn generate_xmss_signatures<S: SignatureScheme>(n: usize) -> (S::PublicKey, Vec<XmssSigningRound<S>>) {
+fn generate_xmss_signatures<S: SignatureScheme>(n: usize) -> (S::PublicKey, Message, Vec<XmssSigningRound<S>>) {
     let mut rng = rand::rng();
 
     let (pk, sk) = S::key_gen(&mut rng, 0, S::LIFETIME as usize);
@@ -22,14 +23,14 @@ fn generate_xmss_signatures<S: SignatureScheme>(n: usize) -> (S::PublicKey, Vec<
 
             let signature = S::sign(&sk, epoch, &message).unwrap();
 
-            XmssSigningRound::new(epoch, message, signature)
+            XmssSigningRound::new(epoch, signature)
         })
         .collect();
 
-    (pk, signing_rounds)
+    (pk, message, signing_rounds)
 }
 
-pub fn generate_and_cache_signatures(n: usize) -> (<SIGTargetSumLifetime18W1NoOff as SignatureScheme>::PublicKey, Vec<XmssSigningRound<SIGTargetSumLifetime18W1NoOff>>) {
+pub fn generate_and_cache_signatures(n: usize) -> (<SIGTargetSumLifetime18W1NoOff as SignatureScheme>::PublicKey, Message, Vec<XmssSigningRound<SIGTargetSumLifetime18W1NoOff>>) {
     let cache_filename = format!("signatures_cache{n}.bin");
     let cache_path = Path::new(&cache_filename);
 
