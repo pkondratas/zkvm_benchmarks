@@ -29,15 +29,17 @@ struct Args {
 
 const ELF: Elf = include_elf!("sp1_xmss_benchmark");
 
-async fn execute_xmss_verification(stdin: SP1Stdin, client: CpuProver) {
+async fn execute_xmss_verification(stdin: SP1Stdin, client: CpuProver, n_signatures: usize) {
     let time = Instant::now();
     let (_, report) = client.execute(ELF, stdin).await.unwrap();
+    println!("Execution time: {}", time.elapsed().as_millis());
 
     assert!(report.exit_code == 0);
 
-    println!("Execution time: {}", time.elapsed().as_millis());
+    let user_cycles = report.total_instruction_count();
     
-    println!("Number of cycles: {}", report.total_instruction_count());
+    println!("Number of cycles: {}", user_cycles);
+    println!("Cycles/XMSS: {}", user_cycles / n_signatures as u64);
 }
 
 async fn prove_xmss_verification(stdin: SP1Stdin, client: CpuProver) {
@@ -98,7 +100,7 @@ async fn main() {
         .await;
 
     match args.command {
-        Command::Execute => execute_xmss_verification(stdin, client).await,
+        Command::Execute => execute_xmss_verification(stdin, client, n_signatures).await,
         Command::Prove => prove_xmss_verification(stdin, client).await,
     }
 }
