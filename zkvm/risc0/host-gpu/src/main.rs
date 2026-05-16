@@ -60,9 +60,13 @@ fn main() {
     let prover = default_prover();
 
     let time = Instant::now();
-    
-    let receipt = prover.prove_with_opts(env, RISC0_XMSS_BENCHMARK_ELF, &opts).unwrap().receipt;
+    let prove_info = prover.prove_with_opts(env, RISC0_XMSS_BENCHMARK_ELF, &opts).unwrap();
     println!("Execution time: {}", time.elapsed().as_millis());
+    
+    let receipt = prove_info.receipt;
+
+    println!("Number of cycles: {}", prove_info.stats.user_cycles);
+    println!("Cycles/XMSS: {}", prove_info.stats.user_cycles / args.n_signatures as u64);
 
     let size = utils::get_proof_size(&receipt.inner.succinct().unwrap());
     println!("Proof size: {} bytes", size);

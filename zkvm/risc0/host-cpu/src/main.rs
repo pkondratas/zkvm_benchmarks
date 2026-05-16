@@ -31,12 +31,10 @@ fn main() {
     let message_bytes = message.to_bytes();
 
     let mut epochs_bytes: Vec<u8> = vec![];
-    // let mut message_bytes: Vec<u8> = vec![];
     let mut signatures_bytes: Vec<u8> = vec![];
 
     signatures_rounds.iter().for_each(|s| {
         epochs_bytes.extend_from_slice(&s.epoch.to_le_bytes());
-        // message_bytes.extend(s.message.to_bytes());
         signatures_bytes.extend(s.signature.to_bytes());
     });
     
@@ -62,16 +60,18 @@ fn main() {
     let prover = default_prover();
 
     let time = Instant::now();
-    
     let prove_info = prover.prove_with_opts(env, RISC0_XMSS_BENCHMARK_ELF, &opts).unwrap();
     println!("Execution time: {}", time.elapsed().as_millis());
 
-    println!("Number of cycles: {}", prove_info.stats.user_cycles);
+    let receipt = prove_info.receipt;
 
-    let size = utils::get_proof_size(&prove_info.receipt.inner.succinct().unwrap());
+    println!("Number of cycles: {}", prove_info.stats.user_cycles);
+    println!("Cycles/XMSS: {}", prove_info.stats.user_cycles / args.n_signatures as u64);
+
+    let size = utils::get_proof_size(&receipt.inner.succinct().unwrap());
     println!("Proof size: {} bytes", size);
 
     let time = Instant::now();
-    prove_info.receipt.verify(RISC0_XMSS_BENCHMARK_ID).unwrap();
+    receipt.verify(RISC0_XMSS_BENCHMARK_ID).unwrap();
     println!("Verfication time: {}", time.elapsed().as_millis());
 }
