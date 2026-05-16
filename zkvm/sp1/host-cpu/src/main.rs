@@ -100,7 +100,7 @@ async fn main() {
         .await;
 
     match args.command {
-        Command::Execute => execute_xmss_verification(stdin, client, n_signatures).await,
+        Command::Execute => execute_xmss_verification(stdin, client, args.n_signatures).await,
         Command::Prove => prove_xmss_verification(stdin, client).await,
     }
 }
