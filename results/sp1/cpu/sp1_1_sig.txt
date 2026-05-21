@@ -1,0 +1,8 @@
+Execution time: 941
+Number of cycles: 56360834
+Cycles/XMSS: 56360834
+Total time: 452.451
+Proof size: 1272569 bytes
+Verfication time: 29
+	Command being timed: "/root/.cargo/bin/cargo run --release -p sp1-host-cpu -- --n-signatures 1 --max-segment-limit 18 prove"
+	Maximum resident set size (kbytes): 53075024

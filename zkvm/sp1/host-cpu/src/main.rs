@@ -47,7 +47,7 @@ async fn prove_xmss_verification(stdin: SP1Stdin, client: CpuProver) {
 
     let time = Instant::now();
     let proof = client.prove(&pk, stdin).compressed().await.unwrap();
-    println!("Proving time: {}", time.elapsed().as_millis());
+    println!("Total time: {}", time.elapsed().as_millis());
 
     let size = utils::get_proof_size(&proof);
     println!("Proof size: {} bytes", size);

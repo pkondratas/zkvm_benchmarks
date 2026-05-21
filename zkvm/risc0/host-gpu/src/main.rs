@@ -61,7 +61,7 @@ fn main() {
 
     let time = Instant::now();
     let prove_info = prover.prove_with_opts(env, RISC0_XMSS_BENCHMARK_ELF, &opts).unwrap();
-    println!("Execution time: {}", time.elapsed().as_millis());
+    println!("Total time: {}", time.elapsed().as_millis());
     
     let receipt = prove_info.receipt;
 
