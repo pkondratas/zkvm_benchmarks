@@ -1,0 +1,9 @@
+execution time: 783.632857ms
+Total time: 4081431
+Number of cycles: 77383943
+Cycles/XMSS: 77383943
+Proof size: 223182 bytes
+Verfication time: 8
+	Command being timed: "/root/.cargo/bin/cargo run --release -p risc0-host-cpu -- --n-signatures 1 --max-segment-limit 22"
+	Maximum resident set size (kbytes): 38389852
+

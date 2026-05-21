@@ -1,0 +1,6 @@
+execution time: 33.483305719s
+Total time: 2609283
+Number of cycles: 3109704987 
+Cycles/XMSS: 31097049 
+Proof size: 223182 bytes
+Verfication time: 8
